@@ -1,67 +1,133 @@
-import React, {  useState } from "react";
-
+import { useState, useEffect } from "react";
 import {
   View,
-  Image,
   Text,
   TextInput,
-  TouchableOpacity,
-  Platform,
-  KeyboardAvoidingView,
   ImageBackground,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Platform,
   Dimensions,
+  TouchableOpacity,
+  Image,
 } from "react-native";
 
 import styles from "./AuthStyles";
 
-export const RegistrationScreen = () => {
-  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
-  return (
-    <View style={styles.container}>
-      <ImageBackground
-        source={require("../assets/Back.jpg")}
-        style={styles.image}
-      >
-        <KeyboardAvoidingView
-          behavior={Platform.OS == "ios" ? "padding" : "height"}
-        >
-          <View style={styles.formWrapper}>
-            <View style={{ marginHorizontal: 16 }}>
-              <Text style={styles.title}>Регистрация</Text>
-            </View>
+const initialState = {
+  login: "",
+  email: "",
+  password: "",
+};
 
-            <View style={{...styles.form, marginBottom:isShowKeyboard ? 20 : 144}}>
-              <View>
-                <TextInput style={styles.input} textAlign={"center"} onFocus={() => setIsShowKeyboard(true)}/>
+const RegistrationScreen = () => {
+  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+  const [state, setState] = useState(initialState);
+
+  
+  const [dimensions, setDimensions] = useState(
+    Dimensions.get("window").width - 16 * 2
+  );
+
+  useEffect(() => {
+    const onChange = () => {
+      const width = Dimensions.get("window").width - 16 * 2;
+
+      setDimensions(width);
+    };
+    Dimensions.addEventListener("change", onChange);
+  }, []);
+
+  const keyboardHide = () => {
+    setIsShowKeyboard(false);
+    Keyboard.dismiss();
+  };
+
+  const handleSubmit = () => {
+    setIsShowKeyboard(false);
+    Keyboard.dismiss();
+    console.log(state);
+    setState(initialState);
+  };
+
+  return (
+    <TouchableWithoutFeedback onPress={keyboardHide}>
+      <View style={styles.container}>
+        <ImageBackground
+          style={styles.bcgImage}
+          source={require("../assets/Back.jpg")}
+        >
+          <KeyboardAvoidingView
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+          >
+            <View style={styles.formWrapper}>
+              <View
+                style={{
+                  ...styles.form,
+                  marginBottom: isShowKeyboard ? 20 : 144,
+                  width: dimensions,
+                }}
+              >
+                <Text style={styles.title}>Реєстрація</Text>
+                <View>
+                  <TextInput
+                    textAlign="center"
+                    onFocus={() => setIsShowKeyboard(true)}
+                    value={state.login}
+                    placeholder="Логін"
+                    style={styles.input}
+                    onChangeText={(value) =>
+                      setState((prevState) => ({ ...prevState, login: value }))
+                    }
+                  />
+                </View>
+                <View>
+                  <TextInput
+                    textAlign="center"
+                    onFocus={() => setIsShowKeyboard(true)}
+                    value={state.email}
+                    placeholder="Адреса електронної пошти"
+                    style={styles.input}
+                    onChangeText={(value) =>
+                      setState((prevState) => ({ ...prevState, email: value }))
+                    }
+                  />
+                </View>
+                <View>
+                  <TextInput
+                    textAlign="center"
+                    onFocus={() => setIsShowKeyboard(true)}
+                    value={state.password}
+                    placeholder="Пароль"
+                    style={styles.input}
+                    secureTextEntry={true}
+                    onChangeText={(value) =>
+                      setState((prevState) => ({
+                        ...prevState,
+                        password: value,
+                      }))
+                    }
+                  />
+                  <Text style={styles.inputShowPasword}>Показати</Text>
+                </View>
+                <TouchableOpacity
+                  style={styles.btn}
+                  activeOpacity={0.7}
+                  onPress={handleSubmit}
+                >
+                  <Text style={styles.btnText}>Зареєструватись</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.singInText}>
+                  <Text style={styles.singInText}>Вже є акаунт? Увійти</Text>
+                </TouchableOpacity>
               </View>
-              <View style={{ marginTop: 16 }}>
-                <TextInput style={styles.input} textAlign={"center"} onFocus={() => setIsShowKeyboard(true)} />
-              </View>
-              <View style={{ marginTop: 16 }}>
-                <TextInput 
-                  style={styles.input}
-                  textAlign={"center"}
-                  secureTextEntry={true}
-                  onFocus={() => setIsShowKeyboard(true)}
-                />
-                <Text
-                    style={styles.inputShowPasword}
-                    
-                  >
-                    Показать
-                  </Text>
-              </View>
-              <TouchableOpacity activeOpacity={0.7} style={styles.btn}>
-                <Text style={styles.btnText}>Зарегистрироваться</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.singInText}>
-              <Text style={styles.singInText}>Уже есть аккаунт? Войти</Text>
-              </TouchableOpacity>
-              
             </View>
-          </View>
-        </KeyboardAvoidingView>
-      </ImageBackground>
-    </View>
+          </KeyboardAvoidingView>
+        </ImageBackground>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
+
+export default RegistrationScreen;
