@@ -21,11 +21,11 @@ const initialState = {
   password: "",
 };
 
-const RegistrationScreen = () => {
+const RegistrationScreen = ({navigation}) => {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [state, setState] = useState(initialState);
 
-  
+
   const [dimensions, setDimensions] = useState(
     Dimensions.get("window").width - 16 * 2
   );
@@ -37,6 +37,9 @@ const RegistrationScreen = () => {
       setDimensions(width);
     };
     Dimensions.addEventListener("change", onChange);
+    return () => {
+      Dimensions.removeEventListener("change", onChange);
+    }
   }, []);
 
   const keyboardHide = () => {
@@ -119,7 +122,7 @@ const RegistrationScreen = () => {
                   <Text style={styles.btnText}>Зареєструватись</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.singInText}>
-                  <Text style={styles.singInText}>Вже є акаунт? Увійти</Text>
+                  <Text style={styles.singInText} onPress={() => navigation.navigate("Login")}>Вже є акаунт? Увійт>Вже є акаунт? Увійти</Text>
                 </TouchableOpacity>
               </View>
             </View>
