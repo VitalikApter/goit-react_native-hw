@@ -36,10 +36,8 @@ const RegistrationScreen = ({navigation}) => {
 
       setDimensions(width);
     };
-    Dimensions.addEventListener("change", onChange);
-    return () => {
-      Dimensions.removeEventListener("change", onChange);
-    }
+    const listener = Dimensions.addEventListener("change", onChange);
+    return () => {listener.remove()}
   }, []);
 
   const keyboardHide = () => {
