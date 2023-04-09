@@ -57,7 +57,7 @@ const RegistrationScreen = ({navigation}) => {
       <View style={styles.container}>
         <ImageBackground
           style={styles.bcgImage}
-          source={require("../assets/Back.jpg")}
+          source={require("../../assets/images/Back.jpg")}
         >
           <KeyboardAvoidingView
             behavior={Platform.OS == "ios" ? "padding" : "height"}
@@ -120,7 +120,7 @@ const RegistrationScreen = ({navigation}) => {
                   <Text style={styles.btnText}>Зареєструватись</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.singInText}>
-                  <Text style={styles.singInText} onPress={() => navigation.navigate("Login")}>Вже є акаунт? Увійт>Вже є акаунт? Увійти</Text>
+                  <Text style={styles.singInText} onPress={() => navigation.navigate("Login")}>Вже є акаунт? Увійти</Text>
                 </TouchableOpacity>
               </View>
             </View>

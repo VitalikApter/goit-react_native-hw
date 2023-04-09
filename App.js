@@ -1,24 +1,37 @@
-import { StatusBar } from 'expo-status-bar';
-import {Text, View,} from 'react-native';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import LoginScreen from './Screens/LoginScreen';
-// import  RegistrationScreen  from "./Screens/RegistrationScreen";
+import LoginScreen from "./Screens/Auth/LoginScreen";
+import RegistrationScreen from "./Screens/Auth/RegistrationScreen";
 
-import styles from './Screens/AuthStyles';
+const AuthStack = createNativeStackNavigator();
+
+const MainTab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
+    <NavigationContainer>
+      <MainTab.Navigator>
 
-      <LoginScreen/>
-      
-        {/* <RegistrationScreen /> */}
-        
-      
-      
-      <StatusBar style="auto" />
-    </View>
+      </MainTab.Navigator>
+    </NavigationContainer>
   );
 }
 
 
+
+
+//Auth
+{/* <AuthStack.Navigator>
+        <AuthStack.Screen
+          options={{ headerShown: false }}
+          name="Registration"
+          component={RegistrationScreen}
+        />
+        <AuthStack.Screen
+          name="Login"
+          options={{ headerShown: false }}
+          component={LoginScreen}
+        />
+      </AuthStack.Navigator> */}
